@@ -10,6 +10,7 @@ export default function AccountForm({ user }) {
     const [username, setUsername] = useState(null)
     const [website, setWebsite] = useState(null)
     const [avatar_url, setAvatarUrl] = useState(null)
+    const [response, setResponse] = useState(null)
 
     const getProfile = useCallback(async () => {
         try {
@@ -32,7 +33,7 @@ export default function AccountForm({ user }) {
                 setAvatarUrl(data.avatar_url)
             }
         } catch (error) {
-            alert('Error loading user data!')
+            setResponse('Error loading the user')
         } finally {
             setLoading(false)
         }
@@ -55,7 +56,8 @@ export default function AccountForm({ user }) {
                 updated_at: new Date().toISOString(),
             })
             if (error) throw error
-            alert('Profile updated!')
+
+            setResponse('Profile updated')
         } catch (error) {
             alert('Error updating the data!')
         } finally {
@@ -64,7 +66,7 @@ export default function AccountForm({ user }) {
     }
 
     return (
-        <div className="form-widget">
+        <div className="flex flex-col gap-2 items-center">
             <div>
                 <label htmlFor="email">Email</label>
                 <input id="email" type="text" value={user?.email} disabled />
@@ -76,6 +78,7 @@ export default function AccountForm({ user }) {
                     type="text"
                     value={fullname || ''}
                     onChange={(e) => setFullname(e.target.value)}
+                    className='text-black'
                 />
             </div>
             <div>
@@ -85,6 +88,7 @@ export default function AccountForm({ user }) {
                     type="text"
                     value={username || ''}
                     onChange={(e) => setUsername(e.target.value)}
+                    className='text-black'
                 />
             </div>
             <div>
@@ -94,6 +98,7 @@ export default function AccountForm({ user }) {
                     type="url"
                     value={website || ''}
                     onChange={(e) => setWebsite(e.target.value)}
+                    className='text-black'
                 />
             </div>
             <Avatar
@@ -122,6 +127,7 @@ export default function AccountForm({ user }) {
                     </button>
                 </form>
             </div>
+            {response && <p>{response}</p>}
         </div>
     )
 }

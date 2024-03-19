@@ -8,10 +8,11 @@ export default async function Account() {
     const {
         data: { user },
     } = await supabase.auth.getUser()
-
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', user?.id).single()
+    console.log('user: ', user)
     return (
         <>
-            <Navbar user={user} />
+            <Navbar user={profile} auth={user?.aud} />
             <AccountForm user={user} />
         </>
     )

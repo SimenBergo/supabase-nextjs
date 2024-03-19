@@ -69,7 +69,7 @@ export default function Avatar({ uid, url, size, onUpload }) {
       )}
       <div style={{ width: size }} className='flex flex-col items-center justify-center'>
         <label
-          className='button primary block rounded-lg bg-slate-800 text-white px-8 py-2 hover:bg-slate-900 hover:cursor-pointer'
+          className='btn btn-secondary'
           htmlFor='single'
         >
           {uploading ? 'Uploading ...' : 'Upload'}

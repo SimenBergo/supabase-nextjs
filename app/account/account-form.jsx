@@ -66,7 +66,7 @@ export default function AccountForm({ user }) {
   }
 
   return (
-    <div className='flex flex-col gap-2 items-center pt-6'>
+    <div className='flex flex-col gap-2 items-center py-6'>
       <div className='flex flex-col justify-center items-center gap-2'>
         <label htmlFor='email'>Email</label>
         <input
@@ -118,7 +118,7 @@ export default function AccountForm({ user }) {
       />
       <div>
         <button
-          className='button primary block rounded-lg bg-slate-100 text-black px-8 py-2 hover:bg-slate-200'
+          className='btn btn-primary'
           onClick={() => updateProfile({ fullname, username, website, avatar_url })}
           disabled={loading}
         >
@@ -128,7 +128,7 @@ export default function AccountForm({ user }) {
 
       <div>
         <form action='/auth/signout' method='post'>
-          <button className='button block' type='submit'>
+          <button className='btn btn-destroy' type='submit'>
             Sign out
           </button>
         </form>

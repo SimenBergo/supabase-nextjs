@@ -7,6 +7,7 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
+    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   prefix: "",
   theme: {
@@ -43,7 +44,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), plugin(function ({ matchUtilities, theme }) {
+  plugins: [require("tailwindcss-animate"), require('@headlessui/tailwindcss'), require('@tailwindcss/forms'), plugin(function ({ matchUtilities, theme }) {
     matchUtilities(
       {
         'text-shadow': (value) => ({

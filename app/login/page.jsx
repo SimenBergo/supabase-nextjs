@@ -24,9 +24,6 @@ export default function LoginPage() {
         <button formAction={login} className='btn btn-primary'>
           Log in
         </button>
-        <button formAction={signup} className='btn btn-secondary'>
-          Sign up
-        </button>
       </div>
     </form>
   )

@@ -33,7 +33,7 @@ function Navbar({ user, auth }) {
     const fallback = user?.full_name[0] + user?.full_name?.split(' ')[1][0]
     return (
       <div className='w-full h-[4rem] border-b border-primary-green p-4 flex items-center justify-between'>
-        <h1 className='text-2xl font-bold drop-shadow-lg'>Dwight's Uno data</h1>
+        <h1 className='text-2xl font-bold drop-shadow-lg'>Dwight&#39;s Uno data</h1>
         <div className='flex gap-4 z-[999] bg-inherit'>
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -60,7 +60,7 @@ function Navbar({ user, auth }) {
   }
   return (
     <div className='mw-full min-h-[4rem] border-b border-primary-green p-4 flex items-center justify-between'>
-      <h1 className='text-2xl font-bold'>Dwight's Uno data</h1>
+      <h1 className='text-2xl font-bold'>Dwight&#39;s Uno data</h1>
       <div className='flex gap-4'>
         <a href='/account' className='hover:underline'>
           Account

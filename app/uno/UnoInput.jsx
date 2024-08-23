@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createClient } from '@/utils/supabase/client'
+import Image from 'next/image';
 
 export default function UnoInput() {
   const supabase = createClient()
@@ -10,6 +11,7 @@ export default function UnoInput() {
   const [region, setRegion] = useState('');
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
+  const [showResponse, setShowResponse] = useState(false);
 
   const geoIpLookup = () => {
     return fetch("https://ipapi.co/json")
@@ -19,6 +21,12 @@ export default function UnoInput() {
   };
 
   async function createGame() {
+    if (simen === null || sandra === null || kristian === null) {
+      setResponse('All fields are required');
+      setShowResponse(true); // Show the response message
+      setTimeout(() => setShowResponse(false), 3000);
+      return;
+    }
     try {
       setLoading(true);
 
@@ -40,6 +48,8 @@ export default function UnoInput() {
       setResponse('Error inserting game');
     } finally {
       setLoading(false);
+      setShowResponse(true); // Show the response message
+      setTimeout(() => setShowResponse(false), 3000);
     }
   }
 
@@ -85,13 +95,18 @@ export default function UnoInput() {
         </div>
         <div className='w-full flex items-center justify-center'>
         <button
-          className='btn btn-primary w-fit'
+          className='btn btn-primary w-[147px] h-[42px] flex items-center justify-center'
           onClick={() => createGame()}
           disabled={loading}
         >
-          {loading ? 'Loading ...' : 'Post game'}
+          {loading ? <Image src="/loading-indicator.svg" height={20} width={20} priority alt="loading-indicator" className="animate-rotate white-svg" />: 'Post game'}
         </button>
         </div>
+        {showResponse && (
+          <p className={`text-center ${showResponse ? 'animate-fadeIn' : 'animate-fadeOut'}`}>
+            {response}
+          </p>
+        )}
       </div>
   );
 }

@@ -32,10 +32,25 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        rotate: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeOut: {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        rotate: 'rotate 0.8s linear infinite',
+        fadeIn: 'fadeIn 0.5s ease-in forwards',
+        fadeOut: 'fadeOut 0.5s ease-out forwards',
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',

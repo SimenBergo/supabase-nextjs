@@ -54,22 +54,6 @@ export default function UnoTable() {
     setGames((prevGames) => prevGames.filter((game) => game !== row));
   };
 
-/*   const countTotalScoreForEachPlayerForBarList = (games) => {
-    const playerScores = games.reduce((acc, game) => {
-      Object.keys(game).forEach((key) => {
-        if (key !== 'date_time') {
-          acc[key] = acc[key] || 0;
-          acc[key] += game[key];
-        }
-      });
-      return acc;
-    }, {});
-    console.log('playerScores', playerScores);
-    return playerScores;
-  };
-  const [totalScore, setTotalScore] = useState(countTotalScoreForEachPlayerForBarList(games));
-  console.log('totalScore', totalScore); */
-
   const getEachPlayerScore = (games) => {
     const playerScores = games.reduce((acc, game) => {
       Object.keys(game).forEach((key) => {
@@ -87,6 +71,23 @@ export default function UnoTable() {
     }));
   };
 
+  const groupGamesByDate = (games) => {
+    const groupedGames = games.reduce((acc, game) => {
+      const date = new Date(game.date_time).toDateString();
+      acc[date] = acc[date] || [];
+      acc[date].push(game);
+      return acc;
+    }, {});
+  
+    return Object.keys(groupedGames).map((date) => ({
+      title: date,
+      region: groupedGames[date].region,
+      games: groupedGames[date],
+    }));
+  };
+
+  console.log(games);
+
   return (
     <div className="mx-auto max-w-2xl flex flex-col gap-10">
       <Table>
@@ -99,18 +100,33 @@ export default function UnoTable() {
           </TableRow>
         </TableHead>
 
-        <TableBody>
+        {games && groupGamesByDate(games).map((group, index) => (
+            <TableBody key={index}>
+              <TableRow>
+                <TableCell colSpan={3} className='text-center'>{group.title + ', ' + group.games[0].region}</TableCell>
+              </TableRow>
+              {group.games.map((game, index) => (
+                <TableRow key={index}>
+                  <TableCell className='text-center'>{game.simen}</TableCell>
+                  <TableCell className='text-center'>{game.sandra}</TableCell>
+                  <TableCell className='text-center'>{game.kristian}</TableCell>
+                  
+                </TableRow>
+              ))}
+            </TableBody>
+          )
+        )}
+
+        {/* <TableBody>
           {games.map((game, index) => (
             <TableRow key={index}>
-              <TableCell>{game.simen}</TableCell>
-              <TableCell>{game.sandra}</TableCell>
-              <TableCell>{game.kristian}</TableCell>
-              {/* <TableCell onClick={() => handleDelete(game.game_id)}>
-                <Trash size={24} color='#37996b' className='hover:cursor-pointer hover:scale-[1.2]' />
-              </TableCell> */}
+              <TableCell className='text-center'>{game.simen}</TableCell>
+              <TableCell className='text-center'>{game.sandra}</TableCell>
+              <TableCell className='text-center'>{game.kristian}</TableCell>
+       
             </TableRow>
           ))}
-        </TableBody>
+        </TableBody> */}
       </Table>
       
       {/* <Card className="mx-auto max-w-lg">

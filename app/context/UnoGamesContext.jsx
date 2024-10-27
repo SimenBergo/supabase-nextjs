@@ -10,6 +10,7 @@ export const useUnoGames = () => useContext(UnoGamesContext)
 export const UnoGamesProvider = ({ children }) => {
   const supabase = createClient()
   const [games, setGames] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const getExistingGames = async () => {
     const { data: games, error } = await supabase.from('uno_games').select('*')
@@ -17,6 +18,7 @@ export const UnoGamesProvider = ({ children }) => {
       console.error(error)
     } else {
       setGames(games)
+      setLoading(false)
     }
   }
 
@@ -37,5 +39,5 @@ export const UnoGamesProvider = ({ children }) => {
     }
   }, [supabase])
 
-  return <UnoGamesContext.Provider value={{ games, setGames }}>{children}</UnoGamesContext.Provider>
+  return <UnoGamesContext.Provider value={{ games, setGames, loading }}>{children}</UnoGamesContext.Provider>
 }

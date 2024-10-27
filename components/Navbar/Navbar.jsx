@@ -2,8 +2,15 @@
 import React, { useEffect } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { createClient } from '@/utils/supabase/client'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
-import Image from 'next/image'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
+import Link from 'next/link'
 
 function Navbar({ user, auth }) {
   const isAuthenticated = user && auth === 'authenticated'
@@ -29,7 +36,6 @@ function Navbar({ user, auth }) {
   }, [isAuthenticated, user?.avatar_url, supabase])
 
   if (isAuthenticated && user) {
-
     const fallback = user?.full_name[0] + user?.full_name?.split(' ')[1][0]
     return (
       <div className='w-full h-[4rem] border-b border-primary-green p-4 flex items-center justify-between'>
@@ -37,7 +43,7 @@ function Navbar({ user, auth }) {
         <div className='flex gap-4 z-[999] bg-inherit'>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar >
+              <Avatar>
                 <AvatarImage src={avatarUrl} alt={user.full_name} />
                 <AvatarFallback>{fallback}</AvatarFallback>
               </Avatar>
@@ -45,13 +51,19 @@ function Navbar({ user, auth }) {
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Account</DropdownMenuItem>
-              <DropdownMenuItem>Uno</DropdownMenuItem>
-              <DropdownMenuItem><form action='/auth/signout' method='post'>
-                <button className='button block' type='submit'>
-                  Sign out
-                </button>
-              </form></DropdownMenuItem>
+              <Link href='/account' className=''>
+                <DropdownMenuItem>Account</DropdownMenuItem>
+              </Link>
+              <Link href='/uno'>
+                <DropdownMenuItem>Uno</DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem>
+                <form action='/auth/signout' method='post'>
+                  <button className='button block' type='submit'>
+                    Sign out
+                  </button>
+                </form>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

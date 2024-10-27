@@ -53,11 +53,10 @@ export function LeaderChart() {
     return `${topPlayer.player} has won ${percentage}% of all games`
   }
 
-  console.log('Total Scores:', totalScores)
   return (
     <Card className='max-w-96 bg-dark text-white mb-8'>
       <CardHeader>
-        <CardTitle className='text-gray-200'>Number of wins</CardTitle>
+        <CardTitle className='text-gray-200'>Number of points</CardTitle>
         <CardDescription className='text-white'>{formatTimespan()}</CardDescription>
       </CardHeader>
       <CardContent>

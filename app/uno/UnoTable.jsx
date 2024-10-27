@@ -1,11 +1,11 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { Card, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, BarList } from '@tremor/react'
-import { Trash } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { useUnoGames } from '../context/UnoGamesContext'
 
 export default function UnoTable() {
-  const { games } = useUnoGames()
+  const { games, loading } = useUnoGames()
 
   const groupGamesByDate = games => {
     const groupedGames = games.reduce((acc, game) => {
@@ -22,7 +22,14 @@ export default function UnoTable() {
     }))
   }
 
-  console.log(games)
+  if (!games) return <div>No games found</div>
+
+  if (loading)
+    return (
+      <div className='flex items-center justify-center'>
+        <Loader2 className='animate-spin' />
+      </div>
+    )
 
   return (
     <div className='mx-auto max-w-2xl flex flex-col gap-10'>

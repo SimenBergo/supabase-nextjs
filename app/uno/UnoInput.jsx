@@ -32,7 +32,6 @@ export default function UnoInput() {
 
       const region = await geoIpLookup()
       console.log('region', region)
-      console.log(simen, sandra, kristian)
       const { error } = await supabase.from('uno_games').insert({
         simen,
         sandra,

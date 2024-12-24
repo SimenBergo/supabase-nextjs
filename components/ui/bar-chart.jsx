@@ -2,6 +2,7 @@
 
 import { TrendingUp } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, LabelList } from 'recharts'
+import { useEffect, useState } from 'react'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
@@ -18,6 +19,8 @@ const chartConfig = {
 
 export function LeaderChart() {
   const { games } = useUnoGames()
+  const [topPlayerPercentage, setTopPlayerPercentage] = useState('')
+
   const calcTotalScoreForEachPlayer = games => {
     return games.reduce((acc, game) => {
       acc.simen = (acc.simen || 0) + (game.simen || 0)
@@ -35,6 +38,32 @@ export function LeaderChart() {
     { player: 'Kristian', score: totalScores.kristian || 0 },
   ]
 
+  useEffect(() => {
+    calculateTopPlayerPercentage()
+  }, [games])
+
+  const calculateTopPlayerPercentage = () => {
+    if (games.length === 0) {
+      setTopPlayerPercentage('No games played')
+      return
+    }
+
+    const playerWins = { simen: 0, sandra: 0, kristian: 0 }
+
+    games.forEach(game => {
+      const winner = Object.keys(game).reduce((a, b) => (game[a] > game[b] ? a : b))
+      playerWins[winner] += 1
+    })
+
+    const topPlayer = Object.keys(playerWins).reduce((a, b) => (playerWins[a] > playerWins[b] ? a : b))
+    const topPlayerWins = playerWins[topPlayer]
+    const percentage = ((topPlayerWins / games.length) * 100).toFixed(1)
+
+    setTopPlayerPercentage(
+      `${topPlayer.charAt(0).toUpperCase() + topPlayer.slice(1)} has won ${percentage}% of all games`
+    )
+  }
+
   const formatTimespan = () => {
     if (games.length === 0) return 'No games played'
     const firstGame = new Date(games[0].date_time)
@@ -43,14 +72,6 @@ export function LeaderChart() {
       return `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`
     }
     return `${formatDate(firstGame)} - ${formatDate(lastGame)}`
-  }
-
-  const calculateTopPlayerPercentage = () => {
-    const totalGames = games.length
-    const topPlayer = chartData.reduce((max, player) => (max.score > player.score ? max : player))
-    const topPlayerWins = games.filter(game => game[topPlayer.player.toLowerCase()] === 1).length
-    const percentage = ((topPlayerWins / totalGames) * 100).toFixed(1)
-    return `${topPlayer.player} has won ${percentage}% of all games`
   }
 
   return (
@@ -74,7 +95,7 @@ export function LeaderChart() {
       </CardContent>
       <CardFooter className='flex-col items-start gap-2 text-sm'>
         <div className='flex gap-2 font-medium leading-none'>
-          {calculateTopPlayerPercentage()} <TrendingUp className='h-4 w-4' />
+          {topPlayerPercentage} <TrendingUp className='h-4 w-4' />
         </div>
       </CardFooter>
     </Card>

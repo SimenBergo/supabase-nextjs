@@ -1,9 +1,17 @@
 'use client'
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 export default function ErrorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorContent />
+    </Suspense>
+  )
+}
+
+function ErrorContent() {
   const searchParams = useSearchParams()
   const message = searchParams.get('message')
 
